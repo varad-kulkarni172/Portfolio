@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="icon" href="logo.jpg" type="image/x-icon" />
     <style>
 /* Updated Color Variables */
 :root {
@@ -813,7 +814,7 @@ h3:hover,
     <header>
       <div class="container">
         <nav class="navbar">
-          <div class="logo">VK</div>
+          <div class="logo">VARAD</div>
           <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -1309,5 +1310,213 @@ h3:hover,
         }, 100);
       });
     </script>
+
+<!-- Add this right before your closing </body> tag -->
+
+<!-- Firebase SDK -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-app-compat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.2/firebase-database-compat.min.js"></script>
+
+<!-- Admin Dashboard (hidden by default) -->
+<div id="adminPanel" style="display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--card-bg); padding: 20px; z-index: 1000; border-bottom: 2px solid var(--primary-color);">
+  <div class="container">
+    <h3 style="color: var(--primary-color);">Admin Dashboard</h3>
+    
+    <div style="display: flex; gap: 20px; margin: 20px 0;">
+      <div style="flex: 1; background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-color);">
+        <h4 style="color: var(--primary-color); margin-bottom: 10px;">Traffic Overview</h4>
+        <p>Total Profile Views: <span id="viewCount">Loading...</span></p>
+        
+        <h4 style="color: var(--primary-color); margin: 15px 0 10px;">Referral Sources</h4>
+        <ul id="referrersList" style="list-style-type: none; padding: 0;">
+          <li>Loading referrer data...</li>
+        </ul>
+      </div>
+      
+      <div style="flex: 1; background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--primary-color);">
+        <h4 style="color: var(--primary-color); margin-bottom: 10px;">Admin Controls</h4>
+        <button id="resetStats" class="cta-button" style="background-color: #e74c3c; margin-right: 10px;">Reset Statistics</button>
+        <button id="exportData" class="cta-button" style="background-color: #3498db;">Export Data</button>
+      </div>
+    </div>
+    
+    <button id="closeAdmin" class="cta-button">Close Dashboard</button>
+  </div>
+</div>
+
+<!-- Invisible button in your logo that activates password prompt -->
+<script>
+
+  // Firebase config remains the same
+const firebaseConfig = {
+  apiKey: "AIzaSyAzByTzlQ41nVguP4GZRmJN_SkNnOGxQsw",
+  databaseURL: "https://portfolio-9e340-default-rtdb.firebaseio.com",
+  authDomain: "portfolio-9e340.firebaseapp.com",
+  projectId: "portfolio-9e340",
+  storageBucket: "portfolio-9e340.firebasestorage.app",
+  messagingSenderId: "755861792322",
+  appId: "1:755861792322:web:fbc0d4aea649736ae6efdb",
+  measurementId: "G-YY186FCL2V"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Function to get referrer source
+function getReferrerSource() {
+  const referrer = document.referrer.toLowerCase();
+  
+  // Check for known referrers
+  if (referrer.includes('linkedin.com')) return 'LinkedIn';
+  if (referrer.includes('twitter.com') || referrer.includes('x.com')) return 'X';
+  if (referrer.includes('instagram.com')) return 'Instagram';
+  if (referrer.includes('github.com')) return 'GitHub';
+  
+  // If no known referrer but has referrer
+  if (referrer) return 'Other';
+  
+  // Direct visit
+  return 'Direct';
+}
+
+// Set up view counter and referrer tracking
+document.addEventListener('DOMContentLoaded', function() {
+  // Count view only once per session
+  if (!sessionStorage.getItem('viewCounted')) {
+    // Get referrer source
+    const source = getReferrerSource();
+    
+    // Update total view count
+    const viewsRef = database.ref('profileViews');
+    viewsRef.transaction(currentViews => {
+      return (currentViews || 0) + 1;
+    });
+    
+    // Update referrer specific count
+    const referrerRef = database.ref('referrers/' + source);
+    referrerRef.transaction(currentViews => {
+      return (currentViews || 0) + 1;
+    });
+    
+    // Store timestamp and additional info if needed
+    database.ref('visits').push({
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      referrer: source,
+      userAgent: navigator.userAgent
+    });
+    
+    // Mark that we've counted the view in this session
+    sessionStorage.setItem('viewCounted', 'true');
+  }
+  
+  // Set up the admin panel trigger on logo
+  const logo = document.querySelector('.logo');
+  logo.addEventListener('click', function(e) {
+    // If Ctrl key is pressed while clicking the logo
+    if (e.ctrlKey) {
+      const password = prompt("Enter admin password:");
+      if (password === "LemonLaw@1") {
+        showAdminPanel();
+      }
+    }
+  });
+  
+  // Close admin panel button
+  document.getElementById('closeAdmin').addEventListener('click', function() {
+    document.getElementById('adminPanel').style.display = 'none';
+  });
+});
+
+function showAdminPanel() {
+  // Get all statistics
+  Promise.all([
+    database.ref('profileViews').once('value'),
+    database.ref('referrers').once('value')
+  ]).then(results => {
+    const totalCount = results[0].val() || 0;
+    const referrers = results[1].val() || {};
+    
+    // Update total count
+    document.getElementById('viewCount').textContent = totalCount;
+    
+    // Update referrer breakdown
+    const referrersList = document.getElementById('referrersList');
+    referrersList.innerHTML = '';
+    
+    // Create list of referrers
+    for (const [source, count] of Object.entries(referrers)) {
+      const item = document.createElement('li');
+      item.textContent = `${source}: ${count}`;
+      referrersList.appendChild(item);
+    }
+    
+    // Show admin panel
+    document.getElementById('adminPanel').style.display = 'block';
+  });
+}
+
+// Add these functions to your existing JavaScript
+
+// Set up additional admin panel buttons
+document.addEventListener('DOMContentLoaded', function() {
+  // Reset statistics button
+  document.getElementById('resetStats').addEventListener('click', function() {
+    if (confirm('Are you sure you want to reset all viewing statistics? This cannot be undone.')) {
+      resetAllStatistics();
+    }
+  });
+  
+  // Export data button
+  document.getElementById('exportData').addEventListener('click', function() {
+    exportAnalyticsData();
+  });
+});
+
+// Function to reset all statistics
+function resetAllStatistics() {
+  // Archive current data before resetting
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  
+  // Get all current data
+  database.ref('/').once('value').then(snapshot => {
+    const currentData = snapshot.val();
+    
+    // Save to archive
+    database.ref('archives/' + timestamp).set(currentData).then(() => {
+      // Reset main statistics
+      database.ref('profileViews').set(0);
+      database.ref('referrers').set({});
+      
+      // Keep visit history for reference
+      // database.ref('visits').set({}); // Uncomment to also clear visit history
+      
+      alert('Statistics have been reset and previous data archived.');
+      
+      // Refresh admin panel
+      showAdminPanel();
+    });
+  });
+}
+
+// Function to export analytics data
+function exportAnalyticsData() {
+  // Get all data
+  database.ref('/').once('value').then(snapshot => {
+    const data = snapshot.val();
+    
+    // Create downloadable JSON
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    // Create download link
+    const exportFileDefaultName = 'portfolio-analytics-' + new Date().toISOString() + '.json';
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  });
+}
+</script>
   </body>
 </html>
