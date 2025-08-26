@@ -39,7 +39,8 @@ header.scrolled{box-shadow:0 5px 15px rgba(0,0,0,.4)}
 .about-text{flex:1}
 .about-text h3{font-size:1.8rem;margin-bottom:1rem;color:var(--primary-color)}
 .about-text p{margin-bottom:1.5rem}
-.skills{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.5rem}
+.about-text {text-align:center}
+.skills{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem; justify-content:center}
 .skill-tag{background:var(--primary-color);color:var(--background);padding:.5rem 1rem;border-radius:50px;font-weight:500;font-size:.9rem}
 .experience{padding:5rem 0;background:var(--background)}
 .timeline{position:relative;max-width:800px;margin:0 auto}
@@ -108,7 +109,9 @@ header.scrolled{box-shadow:0 5px 15px rgba(0,0,0,.4)}
 .calendar svg.js-calendar-graph-svg {
   width: 100% !important;
   height: auto !important;
-  border: none !important;;
+  border: none !important;
+  min-width: 700px;
+  flex-shrink: 0;
 }
 
 .calendar rect.ContributionCalendar-day {
@@ -268,4 +271,35 @@ footer{background:#070D1F;color:var(--light-text);padding:2rem 0;text-align:cent
 .calendar svg,
 .calendar .border {
   border: none !important;
+}
+
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.8rem !important;
+  }
+  h2 {
+    font-size: 1.4rem !important;
+  }
+  h3 {
+    font-size: 1.1rem !important;
+  }
+  .project-card {
+    margin: 0 auto;
+    width: 95%;
+  }
+  .hero-image img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title h2 {
+    font-size: 1.8rem !important;
+  }
+}
+@media (max-width: 480px) {
+  .section-title h2 {
+    font-size: 1.5rem !important;
+  }
 }
