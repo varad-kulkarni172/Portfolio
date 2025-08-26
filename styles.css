@@ -1,0 +1,271 @@
+:root{
+  --primary-color:#FFD700;--secondary-color:#F1C40F;--accent-color:#FFEB3B;
+  --text-color:#F5F5F5;--light-text:#FFF8E1;
+  --background:#0B1026;--section-bg:#141E3C;--card-bg:#1A2742;--transition:.3s ease
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+body{background:var(--background);color:var(--text-color);line-height:1.6;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(var(--primary-color) 1px,transparent 1px);background-size:50px 50px;opacity:.05;z-index:-1;pointer-events:none}
+.container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+header{position:fixed;top:0;left:0;width:100%;background:var(--background);box-shadow:0 2px 10px rgba(0,0,0,.3);z-index:100;border-bottom:2px solid var(--primary-color)}
+header.scrolled{box-shadow:0 5px 15px rgba(0,0,0,.4)}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 0}
+.logo{font-size:1.5rem;font-weight:bold;color:var(--primary-color);cursor:pointer}
+.nav-links{display:flex;list-style:none}
+.nav-links li{margin-left:2rem}
+.nav-links a{text-decoration:none;color:var(--text-color);font-weight:500;transition:var(--transition)}
+.nav-links a:hover{color:var(--primary-color)}
+.burger{display:none;cursor:pointer}
+.burger div{width:25px;height:3px;background:var(--primary-color);margin:5px;transition:var(--transition)}
+.hero{padding:8rem 0 5rem;background:linear-gradient(135deg,#0B1026,#1A2742);color:var(--light-text);clip-path:polygon(0 0,100% 0,100% 85%,0 100%);position:relative}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--primary-color),var(--accent-color))}
+.hero-content{display:flex;align-items:center;justify-content:space-between}
+.hero-text{flex:1}
+.hero-image{flex:1;text-align:center}
+.hero-image img{width:300px;height:300px;border-radius:50%;border:5px solid var(--primary-color);object-fit:cover}
+.hero h1{font-size:3rem;margin-bottom:1rem;color:var(--primary-color)}
+.hero p{font-size:1.2rem;margin-bottom:2rem;max-width:600px}
+.cta-button{display:inline-block;background:var(--primary-color);color:#0B1026;padding:.8rem 2rem;border-radius:50px;text-decoration:none;font-weight:bold;transition:var(--transition);border:none;cursor:pointer}
+.cta-button:hover{background:var(--accent-color);transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.2)}
+.social-icons{display:flex;margin-top:2rem}
+.social-icons a{display:flex;justify-content:center;align-items:center;width:40px;height:40px;background:var(--primary-color);border-radius:50%;margin-right:1rem;color:var(--background);text-decoration:none;transition:var(--transition)}
+.social-icons a:hover{background:var(--accent-color);transform:translateY(-3px)}
+.about{padding:5rem 0;background:var(--section-bg)}
+.section-title{text-align:center;margin-bottom:3rem;position:relative}
+.section-title h2{font-size:2.5rem;color:var(--primary-color);display:inline-block}
+.section-title h2::after{content:"";position:absolute;width:80px;height:3px;background:var(--accent-color);bottom:-10px;left:50%;transform:translateX(-50%)}
+.about-content{display:flex;align-items:center;gap:3rem}
+.about-image{flex:1}
+.about-text{flex:1}
+.about-text h3{font-size:1.8rem;margin-bottom:1rem;color:var(--primary-color)}
+.about-text p{margin-bottom:1.5rem}
+.skills{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.5rem}
+.skill-tag{background:var(--primary-color);color:var(--background);padding:.5rem 1rem;border-radius:50px;font-weight:500;font-size:.9rem}
+.experience{padding:5rem 0;background:var(--background)}
+.timeline{position:relative;max-width:800px;margin:0 auto}
+.timeline::after{content:'';position:absolute;width:3px;background:var(--primary-color);top:0;bottom:0;left:50%;margin-left:-1.5px}
+.timeline-item{padding:10px 40px;position:relative;width:50%}
+.timeline-item::after{content:'';position:absolute;width:20px;height:20px;right:-10px;background:var(--background);border:4px solid var(--primary-color);top:15px;border-radius:50%;z-index:1}
+.left{left:0}.right{left:50%}.right::after{left:-10px}
+.timeline-content{padding:20px 30px;background:var(--card-bg);border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.3);border-left:2px solid var(--primary-color)}
+.timeline-content h3{color:var(--primary-color);margin-bottom:.5rem}
+.timeline-content h4{font-weight:normal;margin-bottom:1rem;color:var(--accent-color)}
+.timeline-content .date{font-style:italic;color:var(--text-color);opacity:.8;margin-bottom:1rem}
+.projects{padding:5rem 0;background:var(--section-bg)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+.project-card{background:var(--card-bg);border-radius:10px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.3);transition:var(--transition);border:1px solid rgba(255,215,0,.1)}
+.project-card:hover{transform:translateY(-10px);box-shadow:0 15px 30px rgba(0,0,0,.4);border-color:var(--primary-color)}
+.project-img{height:200px;background:var(--primary-color);display:flex;justify-content:center;align-items:center;color:var(--background);font-size:2.5rem}
+.project-content{padding:1.5rem}
+.project-content h3{color:var(--primary-color);margin-bottom:.5rem}
+.project-links{display:flex;gap:1rem}
+.project-links a{display:inline-flex;align-items:center;gap:.5rem;color:var(--primary-color);text-decoration:none;transition:var(--transition)}
+.project-links a:hover{color:var(--accent-color);text-decoration:underline}
+.achievements{padding:5rem 0;background:var(--background)}
+.achievement-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+.achievement-card{background:var(--card-bg);border-radius:10px;padding:2rem;box-shadow:0 5px 20px rgba(0,0,0,.3);transition:var(--transition);border-left:4px solid var(--primary-color)}
+.achievement-card:hover{transform:scale(1.03);box-shadow:0 8px 25px rgba(255,215,0,.15)}
+
+.github-activity {
+  padding: 5rem 0;
+  background: var(--section-bg);
+  text-align: center;
+}
+
+
+
+.github-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.calendar {
+  background: transparent !important;
+  color: var(--text-color);
+  padding: 1rem 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) rgba(255, 215, 0, 0.1);
+  border-radius: 8px;
+}
+
+.calendar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.calendar::-webkit-scrollbar-track {
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 10px;
+}
+
+.calendar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  border: 2px solid var(--card-bg);
+}
+
+.calendar svg.js-calendar-graph-svg {
+  width: 100% !important;
+  height: auto !important;
+  border: none !important;;
+}
+
+.calendar rect.ContributionCalendar-day {
+  transition: fill 0.3s ease, transform 0.1s ease;
+  transform-origin: center;
+}
+
+.calendar rect.ContributionCalendar-day:hover {
+  transform: scale(1.1);
+  stroke: var(--primary-color);
+  stroke-width: 1px;
+}
+
+.ContributionCalendar-day[data-level='0'] { fill: #1A2742; }
+.ContributionCalendar-day[data-level='1'] { fill: #FFD70033; }
+.ContributionCalendar-day[data-level='2'] { fill: #FFD70066; }
+.ContributionCalendar-day[data-level='3'] { fill: #FFD70099; }
+.ContributionCalendar-day[data-level='4'] { fill: #FFD700; }
+
+.svg-tip {
+  background: #111;
+  border: 1px solid #333;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.2s ease;
+}
+
+.calendar .contrib-number {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.calendar-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.graph-legend, .float-left {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  color: var(--text-color);
+}
+
+.calendar-legend ul {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.calendar-legend li {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.calendar-legend li.color-0 { background-color: #1A2742; }
+.calendar-legend li.color-1 { background-color: #FFD70033; }
+.calendar-legend li.color-2 { background-color: #FFD70066; }
+.calendar-legend li.color-3 { background-color: #FFD70099; }
+.calendar-legend li.color-4 { background-color: #FFD700; }
+
+
+/* Contact/Footer */
+.contact{padding:5rem 0;background:var(--section-bg)}
+.contact-content{display:flex;gap:3rem}
+.contact-info{flex:1}
+.contact-info h3{color:var(--primary-color);margin-bottom:1.5rem;font-size:1.8rem}
+.contact-details{list-style:none}
+.contact-details li{margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.contact-details li i{width:40px;height:40px;background:var(--primary-color);color:var(--background);border-radius:50%;display:flex;justify-content:center;align-items:center}
+.contact-form{flex:1;background:var(--card-bg);padding:2rem;border-radius:10px;box-shadow:0 5px 20px rgba(0,0,0,.3);border:1px solid rgba(255,215,0,.1)}
+.form-group{margin-bottom:1.5rem}
+.form-group label{display:block;margin-bottom:.5rem;font-weight:500;color:var(--primary-color)}
+.form-group input,.form-group textarea{width:100%;padding:.8rem;border:1px solid rgba(255,215,0,.3);border-radius:5px;font-size:1rem;background-color:rgba(11,16,38,.6);color:var(--text-color)}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary-color);box-shadow:0 0 5px rgba(255,215,0,.5)}
+.form-group textarea{height:150px;resize:vertical}
+footer{background:#070D1F;color:var(--light-text);padding:2rem 0;text-align:center;border-top:2px solid var(--primary-color)}
+.footer-links{display:flex;justify-content:center;gap:2rem;margin:1.5rem 0}
+.footer-links a{color:var(--light-text);text-decoration:none;transition:var(--transition)}
+.footer-links a:hover{color:var(--primary-color)}
+.back-to-top{position:fixed;bottom:2rem;right:2rem;width:50px;height:50px;background:var(--primary-color);color:var(--background);border-radius:50%;display:flex;justify-content:center;align-items:center;text-decoration:none;font-size:1.5rem;opacity:0;visibility:hidden;transition:var(--transition);z-index:99}
+.back-to-top.visible{opacity:1;visibility:visible}
+.back-to-top:hover{background:var(--accent-color);transform:translateY(-5px)}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 1s ease forwards;opacity:0}
+.delay-1{animation-delay:.2s}.delay-2{animation-delay:.4s}.delay-3{animation-delay:.6s}.delay-4{animation-delay:.8s}
+
+@media (max-width:992px){
+  .hero-content{flex-direction:column-reverse;text-align:center}
+  .hero-image{margin-bottom:2rem}
+  .hero p{margin:0 auto 2rem}
+  .social-icons{justify-content:center}
+  .about-content{flex-direction:column;text-align:center}
+  .skills{justify-content:center}
+  .timeline::after{left:31px}
+  .timeline-item{width:100%;padding-left:70px;padding-right:25px}
+  .timeline-item::after{left:21px}.right{left:0}
+  .contact-content{flex-direction:column}
+}
+@media (max-width:768px){
+  .nav-links{position:fixed;right:-100%;top:8vh;height:92vh;width:100%;flex-direction:column;align-items:center;background:var(--background);transition:right .5s ease;z-index:99}
+  .nav-links.active{right:0}
+  .nav-links li{margin:2rem 0}
+  .burger{display:block}
+  .burger.active div:nth-child(1){transform:rotate(-45deg) translate(-5px,6px)}
+  .burger.active div:nth-child(2){opacity:0}
+  .burger.active div:nth-child(3){transform:rotate(45deg) translate(-5px,-6px)}
+  .hero h1{font-size:2.5rem}
+  .section-title h2{font-size:2rem}
+  .achievement-cards{grid-template-columns:1fr}
+}
+
+.logo:hover,h1:hover,h2:hover,h3:hover,.skill-tag:hover{ text-shadow:0 0 5px rgba(255,215,0,.5) }
+
+.calendar a[aria-label="Skip to contributions year list"],
+.calendar a:has(> span:contains("Skip to contributions year list")) {
+  display: none !important;
+}
+
+.calendar rect.ContributionCalendar-day {
+  width: 10px !important; 
+  height: 10px !important; 
+  rx: 2 !important; 
+  ry: 2 !important;
+  shape-rendering: crispEdges; 
+}
+
+.calendar svg.js-calendar-graph-svg g g {
+  transform: translateX(0) scale(1);
+}
+
+.calendar svg.js-calendar-graph-svg {
+  width: auto !important;
+  height: auto !important;
+}
+
+.calendar .ContributionCalendar {
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.calendar,
+.calendar svg,
+.calendar .border {
+  border: none !important;
+}
