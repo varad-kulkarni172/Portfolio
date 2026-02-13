@@ -1,17 +1,17 @@
 (() => {
-  const PROD = true; // set false to debug locally
+  const PROD = true;
   if (!PROD) return;
-  const noop = function(){};
+  const noop = function () { };
   console.log = noop;
   console.info = noop;
   console.debug = noop;
-  // This ensures that the custom console.error is used instead of the original one,
-  // preventing sensitive information from being logged.
+
+
   const origErr = console.error.bind(console);
-  console.error = function(){ origErr("An error occurred."); };
+  console.error = function () { origErr("An error occurred."); };
 })();
 
-// =================== Nav + UI ===================
+
 (() => {
   const burger = document.querySelector(".burger");
   const nav = document.querySelector(".nav-links");
@@ -21,7 +21,7 @@
     nav.classList.toggle("active");
     burger.classList.toggle("active");
     navLinks.forEach((link, i) => {
-      link.style.animation = link.style.animation ? "" : `navLinkFade .5s ease forwards ${i/7 + .3}s`;
+      link.style.animation = link.style.animation ? "" : `navLinkFade .5s ease forwards ${i / 7 + .3}s`;
     });
   });
 
@@ -52,21 +52,21 @@
   setTimeout(() => { document.querySelectorAll(".fade-in").forEach(el => el.style.opacity = 0); }, 100);
 })();
 
-// =================== GitHub Contributions ===================
+
 (() => {
   const githubUser = "varad-kulkarni172";
   const calendarContainer = ".calendar";
 
-  // Directly render the GitHub calendar without year selection
+
   GitHubCalendar(calendarContainer, githubUser, {
     global_stats: false,
     responsive: true,
     summary_text: "",
-    year: "last" 
+    year: "last"
   });
 })();
 
-// Remove the injected "Skip to contributions year list" element
+
 setTimeout(() => {
   document.querySelectorAll('.calendar a').forEach(el => {
     if (el.textContent.includes("Skip to contributions year list")) {
@@ -76,7 +76,7 @@ setTimeout(() => {
 }, 1000);
 
 
-// Force remove the "Skip to contributions year list" text after calendar renders
+
 setTimeout(() => {
   const footer = document.querySelector(".calendar .contrib-footer");
   if (footer) footer.remove();
@@ -84,3 +84,40 @@ setTimeout(() => {
   const skipLink = document.querySelector('.calendar a[href*="contributions"]');
   if (skipLink) skipLink.remove();
 }, 1000);
+
+
+(() => {  
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdEeCMgOVJkP0owJKmQUJ7WzZVDDOn9nQ",
+    authDomain: "varad-portfolio-344d2.firebaseapp.com",
+    projectId: "varad-portfolio-344d2",
+    storageBucket: "varad-portfolio-344d2.firebasestorage.app",
+    messagingSenderId: "279433494647",
+    appId: "1:279433494647:web:8403c51bf2f8d8f9e14672",
+    measurementId: "G-L1CHB6HQB8"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  const database = firebase.database();
+  const visitorRef = database.ref('totalVisitors');
+  const logoElement = document.getElementById('visitor-logo');
+  const adminViewCount = document.getElementById('viewCount');
+  
+  visitorRef.transaction((currentValue) => {
+    return (currentValue || 0) + 1;
+  });
+
+visitorRef.on('value', (snapshot) => {
+    const count = snapshot.val() || 0;
+    
+    if (logoElement) {
+      logoElement.innerHTML = `Visitors Count: ${count.toLocaleString()}`;
+    }
+
+    if (adminViewCount) {
+      adminViewCount.innerText = count.toLocaleString();
+    }
+  });
+})();

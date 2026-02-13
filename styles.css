@@ -343,3 +343,12 @@ footer{background:#070D1F;color:var(--light-text);padding:2rem 0;text-align:cent
     font-size: 1.5rem !important;
   }
 }
+
+
+.logo {
+  min-width: 60px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
